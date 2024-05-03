@@ -23,6 +23,8 @@ void hailstone(void)
     printf(" %d ", n);
     hailstoneLength++;
   }
+
+  printf("hailstone length is: %d\n", hailstoneLength );
 }
 
 
