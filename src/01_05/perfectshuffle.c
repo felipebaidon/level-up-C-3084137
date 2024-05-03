@@ -22,18 +22,29 @@ void PerfectShuffle(void)
 {
   char firstHalf[13];
   char secondHalf[13];
+  int ShufflesNumber = 0;
+  static int j = 0;
 
   memcpy(&firstHalf,&alphabet[0],13);
   memcpy(&secondHalf, &alphabet[13], 13);
 
-  for(int i = 0; i < 26; i=i + 2)
+  while((memcmp(&alphabet,&shuffledAlphabet,26) != 0))
   {
-    static int j=0;
-    shuffledAlphabet[i] = firstHalf[j];
-    shuffledAlphabet[i+1] = secondHalf[j++];
-    printf(" %c %c", shuffledAlphabet[i], shuffledAlphabet[i+1]);
+    for (int i = 0; i < 26; i = i + 2)
+    {
+      shuffledAlphabet[i] = firstHalf[j];
+      shuffledAlphabet[i + 1] = secondHalf[j++];
+      printf(" %c %c", shuffledAlphabet[i], shuffledAlphabet[i + 1]);
+    }
+
+    memcpy(&firstHalf, &shuffledAlphabet[0], 13);
+    memcpy(&secondHalf, &shuffledAlphabet[13], 13);
+    ShufflesNumber++;
+    printf("\n");
+    j = 0;
   }
 
+  printf("\n number of shuffles is: %d\n", ShufflesNumber);
 }
 
 int main(void)
