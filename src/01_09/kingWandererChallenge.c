@@ -10,12 +10,16 @@
 #include<stdio.h>
 
 char chessboard[rows][columns];
-char horizontalAxis[columns + 1] = {' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}; 
+char horizontalAxis[columns + 1] = {' ', '1', '2', '3', '4', '5', '6', '7', '8'}; 
 char verticalAxis[rows]= {'1', '2', '3', '4', '5', '6', '7', '8'};
+char *King;
 
 int main(void)
 {
   int i = 0, j = 0;
+  char grid;
+  King = &chessboard[3][4];
+  
   printf( "Start: \n");
   
   for( j=0; j < columns + 1; j++)
@@ -29,7 +33,15 @@ int main(void)
 
     for(j= 0; j< columns; j++)
     {
-      chessboard[i][j] = '.';
+      if(&chessboard[i][j]== King)
+      {
+          grid = 'K';
+      }
+      else
+      {
+          grid = '.';
+      }
+      chessboard[i][j] = grid;
       printf(" %c ", chessboard[i][j]);
     }
     puts("\n");
