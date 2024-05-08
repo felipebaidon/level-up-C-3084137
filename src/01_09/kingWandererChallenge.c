@@ -4,18 +4,18 @@
 // fifth column fourth row
 // randomly move the king: 9 possible options including no movement
 //output number of moves before the king wanders off the board
-#define rows 8
-#define columns 8
+#define ROWS 8
+#define COLUMNS 8
 
-#define DEBUG 
-//#define RELEASE
+//#define DEBUG 
+#define RELEASE
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-char horizontalAxis[columns + 1] = {' ', '1', '2', '3', '4', '5', '6', '7', '8'}; 
-char verticalAxis[rows]= {'1', '2', '3', '4', '5', '6', '7', '8'};
+char horizontalAxis[COLUMNS + 1] = {' ', '1', '2', '3', '4', '5', '6', '7', '8'}; 
+char verticalAxis[ROWS]= {'1', '2', '3', '4', '5', '6', '7', '8'};
 struct position{int row; int col} King;
 enum movement{noMove, upperLeft, upperCenter, upperRight, left, right, lowerLeft, lowerCenter, lowerRight, NumOfMovements};
 
@@ -24,16 +24,16 @@ void drawGame(void)
   int i = 0, j = 0;
   char grid;
 
-  for (j = 0; j < columns + 1; j++)
+  for (j = 0; j < COLUMNS + 1; j++)
     printf(" %c ", horizontalAxis[j]);
 
   puts("\n");
 
-  for (i = 0; i < rows; i++)
+  for (i = 0; i < ROWS; i++)
   {
     printf(" %c ", verticalAxis[i]);
 
-    for (j = 0; j < columns; j++)
+    for (j = 0; j < COLUMNS; j++)
     {
       if ((King.row == i) && (King.col == j))
       {
@@ -90,7 +90,7 @@ int moveKing(void)
     case upperRight:
       King.row--;
       King.col++;
-      if(King.row < 0 || King.col > 7)
+      if(King.row < 0 || King.col >= COLUMNS)
       {
         onTheBoard = 0;
       }
@@ -104,7 +104,7 @@ int moveKing(void)
       break;
     case right:
       King.col++;
-      if(King.col > 7)
+      if(King.col >= COLUMNS)
       {
         onTheBoard = 0;
       }
@@ -112,14 +112,14 @@ int moveKing(void)
     case lowerLeft:
       King.col--;
       King.row++;
-      if( King.col < 0 || King.row > 7)
+      if( King.col < 0 || King.row >= ROWS)
       {
         onTheBoard = 0;
       }
       break;
     case lowerCenter:
       King.row++;
-      if(King.row > 7)
+      if(King.row >= ROWS)
       {
         onTheBoard = 0;
       }
@@ -127,7 +127,7 @@ int moveKing(void)
     case lowerRight:
       King.col++;
       King.row++;
-      if(King.col > 7 || King.row > 7)
+      if(King.col >= COLUMNS || King.row >= ROWS)
       {
         onTheBoard = 0;
       }
