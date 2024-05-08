@@ -7,8 +7,8 @@
 #define rows 8
 #define columns 8
 
-#define DEBUG 
-//#define RELEASE
+//#define DEBUG 
+#define RELEASE
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -52,8 +52,29 @@ void drawGame(void)
 }
 
 
-void moveKing(void)
+int moveKing(void)
 {
+  int i, j;
+  int kingIsFound = 0;
+  int onTheBoard = 1;
+
+  for(i= 0; i< rows; i++)
+  {
+    for(j=0; j< columns; j++)
+    {
+      if(&chessboard[i][j]== King)
+      {
+        kingIsFound = 1;
+        break;
+      }
+    }
+
+          if(kingIsFound)
+        break;
+  }
+
+  printf("King is in %d , %d\n",i + 1,j +1);
+
 #ifdef RELEASE  
   srand((unsigned)time(NULL));
   enum movement direction = rand() % NumOfMovements;
@@ -69,30 +90,72 @@ void moveKing(void)
     case noMove:
       break;
     case upperLeft:
-      King = King - 9;
+      King = &chessboard[i-1][j-1];
+      if(j == 0 || i == 0)
+      {
+        onTheBoard = 0;
+        *King = '.';
+      }
       break;
     case upperCenter:
-      King  = King - 8;
+      King  = &chessboard[i-1][j];
+      if(i==0)
+      {
+        onTheBoard = 0;
+        *King = '.';
+      }
       break;
     case upperRight:
-      King = King - 7;
+      King = &chessboard[i-1][j+1];
+      if(j==7 || i==0 )
+      {
+        onTheBoard = 0;
+        *King = '.';
+      }
       break;
     case left:
-      King = King - 1;
+      King =  &chessboard[i][j-1];
+      if (j == 0)
+      {
+        onTheBoard = 0;
+        King = '.';
+      }
       break;
     case right:
-      King = King + 1;
+      King = &chessboard[i][j+1];
+      if(j == 7)
+      {
+        onTheBoard = 0;
+        King = '.';
+      }
       break;
     case lowerLeft:
-      King = King + 7;
+      King = &chessboard[i+1][j-1];
+      if( j==0 || i == 7)
+      {
+        onTheBoard = 0;
+        King = '.';
+      }
       break;
     case lowerCenter:
-      King = King + 8;
+      King = &chessboard[i+1][j];
+      if(i == 7)
+      {
+        onTheBoard = 0;
+        King = '.';
+      }
       break;
     case lowerRight:
-      King = King + 9;
+      King = &chessboard[i + 1][j+1];
+      if(j==7 || i == 7)
+      {
+        onTheBoard = 0;
+        King = '.';
+      }
       break;
   }
+
+  return onTheBoard;
 }
 
 int main(void)
@@ -106,9 +169,7 @@ int main(void)
 
   while(onTheBoard)
   {
-    moveKing();
-    if((King <  &chessboard[0][0]) || (King > &chessboard[7][7]))
-      onTheBoard = 0;
+    onTheBoard = moveKing();
     count++;
     printf("%d Movement performed!\n", count);
     drawGame();
