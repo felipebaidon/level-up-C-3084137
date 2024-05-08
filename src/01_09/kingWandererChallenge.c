@@ -7,8 +7,8 @@
 #define rows 8
 #define columns 8
 
-//#define DEBUG 
-#define RELEASE
+#define DEBUG 
+//#define RELEASE
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,8 +24,6 @@ void drawGame(void)
 {
   int i = 0, j = 0;
   char grid;
-
-  printf("Start: \n");
 
   for (j = 0; j < columns + 1; j++)
     printf(" %c ", horizontalAxis[j]);
@@ -100,15 +98,22 @@ void moveKing(void)
 int main(void)
 {
   King = &chessboard[3][4];
+  int count = 0;
+  int onTheBoard = 1;
 
+  printf("Start!: \n");
   drawGame();
-  while(1)
+
+  while(onTheBoard)
   {
     moveKing();
-    puts("Movement performed!\n");
+    if((King <  &chessboard[0][0]) || (King > &chessboard[7][7]))
+      onTheBoard = 0;
+    count++;
+    printf("%d Movement performed!\n", count);
     drawGame();
   }
 
-
+  printf("Number of movements to wander: %d\n", count);
   return 0;
 }
